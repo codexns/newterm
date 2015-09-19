@@ -2,6 +2,7 @@
 from __future__ import unicode_literals, division, absolute_import, print_function
 
 import sys
+import os
 import re
 import ctypes
 import time
@@ -133,7 +134,7 @@ def open_cmd(cwd, env=None, width=1024):
 
 def open_executable(executable, args, cwd, env=None):
     """
-    Opens an executable with optional arguments inside of a unicode environment
+    Rune an executable with optional arguments inside of a unicode environment
 
     :param executable:
         A unicode string of an executable
@@ -153,6 +154,10 @@ def open_executable(executable, args, cwd, env=None):
     process_info = PROCESS_INFORMATION()
 
     temp_command_line = '"' + executable + '"'
+    if args is None:
+        args = []
+    if os.path.basename(executable).lower() == 'cmder.exe':
+        args = ['/START', cwd] + args
     if args:
         for arg in args:
             if re.search('[ \t"]', arg) is not None:
@@ -172,7 +177,7 @@ def open_executable(executable, args, cwd, env=None):
         CREATE_NEW_CONSOLE | CREATE_UNICODE_ENVIRONMENT,
         env_bytes,
         cwd,
-        ctypes.byref(startupinfo),
+        ctypes.pointer(startupinfo),
         ctypes.byref(process_info)
     )
 
