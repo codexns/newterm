@@ -24,7 +24,8 @@ def launch_executable(executable, args, cwd, env=None):
     """
 
     subprocess_args = [executable]
-    subprocess_args.extend(args)
+    if args is not None:
+        subprocess_args.extend(args)
 
     if sys.version_info >= (3,):
         subprocess_env = dict(os.environ)
