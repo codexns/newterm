@@ -230,6 +230,8 @@ def _applescript_quote(string):
     return '"' + string.replace('"', '\\"') + '"'
 
 
+# Load AppKit since that makes NSWorkspace and NSAppleScript available
+AppKit = ctypes.CDLL(find_library('AppKit'))
 objc = ctypes.CDLL(find_library('objc'))
 
 objc.objc_getClass.argtypes = [ctypes.c_char_p]
