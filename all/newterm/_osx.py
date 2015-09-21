@@ -352,6 +352,43 @@ class NSString():
         return output or ''
 
 
+class NSApplication():
+    _class_ref = _objc_get_class('NSApplication')
+    _shared_application_sel = _sel_register_name('sharedApplication')
+    _set_activation_policy_sel = _sel_register_name('setActivationPolicy:')
+
+    @classmethod
+    def shared(cls):
+        output = NSApplication()
+        output._instance_ref = _objc_msg_send(
+            cls._class_ref,
+            cls._shared_application_sel
+        )
+        return output
+
+    def set_activation_policy(self, policy):
+        _objc_msg_send(
+            self._instance_ref,
+            self._set_activation_policy_sel,
+            policy
+        )
+
+
+if sys.maxsize > 2 ** 32:
+    NSInteger = ctypes.c_int64
+else:
+    NSInteger = ctypes.c_int32
+
+NSApplicationActivationPolicyProhibited = NSInteger(2)
+
+
+# When interacting with AppKit by using NSWorkspace or NSAppleScript, OS X
+# adds plugin_host to the dock with the Sublime Text icon. This hides the icon
+# so that there aren't two ST icons in the dock.
+_SHARED_APPLICATION = NSApplication.shared()
+_SHARED_APPLICATION.set_activation_policy(NSApplicationActivationPolicyProhibited)
+
+
 class NSWorkspace():
     _class_ref = _objc_get_class('NSWorkspace')
     _shared_workspace_sel = _sel_register_name('sharedWorkspace')
