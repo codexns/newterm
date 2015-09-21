@@ -15,8 +15,8 @@ else:
     from ._posix import launch_executable
 
 
-__version__ = '0.9.0'
-__version_info__ = (0, 9, 0)
+__version__ = '0.9.1'
+__version_info__ = (0, 9, 1)
 
 
 def launch_terminal(cwd, env=None, terminal=None, args=None, width=1024, use_tabs=False):
