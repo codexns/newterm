@@ -6,9 +6,9 @@ import os
 import subprocess
 
 
-def open_executable(executable, args, cwd, env=None):
+def launch_executable(executable, args, cwd, env=None):
     """
-    Runs an executable with optional arguments
+    Launches an executable with optional arguments
 
     :param executable:
         A unicode string of an executable

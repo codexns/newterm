@@ -15,9 +15,9 @@ else:
     import winreg
 
 
-def open_powershell(cwd, env=None, width=1024):
+def launch_powershell(cwd, env=None, width=1024):
     """
-    Opens PowerShell in such a way that is mimics the shortcut from the start
+    Launches PowerShell in such a way that is mimics the shortcut from the start
     menu, using a dark blue background and light grey text
 
     :param cwd:
@@ -90,9 +90,9 @@ def open_powershell(cwd, env=None, width=1024):
     ).start()
 
 
-def open_cmd(cwd, env=None, width=1024):
+def launch_cmd(cwd, env=None, width=1024):
     """
-    Opens cmd.exe with a custom width and a unicode environment
+    Launches cmd.exe with a custom width and a unicode environment
 
     :param cwd:
         A unicode string of the working directory to open cmd.exe to
@@ -132,9 +132,10 @@ def open_cmd(cwd, env=None, width=1024):
     kernel32.CloseHandle(process_info.hThread)
 
 
-def open_executable(executable, args, cwd, env=None):
+def launch_executable(executable, args, cwd, env=None):
     """
-    Rune an executable with optional arguments inside of a unicode environment
+    Launches an executable with optional arguments inside of a unicode
+    environment
 
     :param executable:
         A unicode string of an executable

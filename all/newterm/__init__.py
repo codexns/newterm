@@ -4,15 +4,15 @@ from __future__ import unicode_literals, division, absolute_import, print_functi
 import sys
 
 if sys.platform == 'win32':
-    from ._win import open_executable, open_powershell, open_cmd
+    from ._win import launch_powershell, launch_cmd, launch_executable
 
 elif sys.platform == 'darwin':
-    from ._osx import open_terminal, open_iterm
-    from ._posix import open_executable
+    from ._osx import launch_terminal_app, launch_iterm_app
+    from ._posix import launch_executable
 
 else:
     from ._linux import get_default_terminal
-    from ._posix import open_executable
+    from ._posix import launch_executable
 
 
 __version__ = '0.9.0'
@@ -56,21 +56,21 @@ def launch_terminal(cwd, env=None, terminal=None, args=None, width=1024, use_tab
 
     if sys.platform == 'darwin':
         if terminal is None or terminal == 'Terminal.app':
-            open_terminal(cwd, env=env, use_tabs=use_tabs)
+            launch_terminal_app(cwd, env=env, use_tabs=use_tabs)
         elif terminal == 'iTerm.app':
-            open_iterm(cwd, env=env, use_tabs=use_tabs)
+            launch_iterm_app(cwd, env=env, use_tabs=use_tabs)
         else:
-            open_executable(terminal, args, cwd, env=env)
+            launch_executable(terminal, args, cwd, env=env)
 
     elif sys.platform == 'win32':
         if terminal is None or terminal == 'powershell.exe':
-            open_powershell(cwd, env=env, width=width)
+            launch_powershell(cwd, env=env, width=width)
         elif terminal == 'cmd.exe':
-            open_cmd(cwd, env=env, width=width)
+            launch_cmd(cwd, env=env, width=width)
         else:
-            open_executable(terminal, args, cwd, env=env)
+            launch_executable(terminal, args, cwd, env=env)
 
     else:
         if terminal is None:
             terminal = get_default_terminal()
-        open_executable(terminal, args, cwd, env=env)
+        launch_executable(terminal, args, cwd, env=env)

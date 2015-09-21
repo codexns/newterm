@@ -12,9 +12,9 @@ import shellenv
 from ._types import str_cls
 
 
-def open_terminal(cwd, env=None, use_tabs=False):
+def launch_terminal_app(cwd, env=None, use_tabs=False):
     """
-    Opens Terminal.app
+    Launches Terminal.app
 
     :param cwd:
         A unicode string of the working directory to open Terminal to
@@ -82,9 +82,9 @@ def open_terminal(cwd, env=None, use_tabs=False):
     script.execute()
 
 
-def open_iterm(cwd, env=None, use_tabs=False):
+def launch_iterm_app(cwd, env=None, use_tabs=False):
     """
-    Opens iTerm
+    Launches iTerm.app
 
     :param cwd:
         A unicode string of the working directory to open iTerm to
