@@ -385,8 +385,9 @@ NSApplicationActivationPolicyProhibited = NSInteger(2)
 # When interacting with AppKit by using NSWorkspace or NSAppleScript, OS X
 # adds plugin_host to the dock with the Sublime Text icon. This hides the icon
 # so that there aren't two ST icons in the dock.
-_SHARED_APPLICATION = NSApplication.shared()
-_SHARED_APPLICATION.set_activation_policy(NSApplicationActivationPolicyProhibited)
+if sys.version_info >= (3,):
+    _SHARED_APPLICATION = NSApplication.shared()
+    _SHARED_APPLICATION.set_activation_policy(NSApplicationActivationPolicyProhibited)
 
 
 class NSWorkspace():
