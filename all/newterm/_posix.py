@@ -28,7 +28,7 @@ def launch_executable(executable, args, cwd, env=None):
     verify_unicode(executable, 'executable')
     verify_unicode_list(args, 'args', allow_none=True)
     verify_unicode(cwd, 'cwd')
-    verify_unicode_dict(env, 'env', allow_none=True)
+    verify_unicode_dict(env, 'env')
 
     subprocess_args = [executable]
     if args is not None:
@@ -43,7 +43,11 @@ def launch_executable(executable, args, cwd, env=None):
 
     if env:
         for key, value in env.items():
-            subprocess_env[key] = value
+            if value is None:
+                if key in subprocess_env:
+                    del subprocess_env[key]
+            else:
+                subprocess_env[key] = value
 
     if sys.version_info < (3,):
         encoded_args = []

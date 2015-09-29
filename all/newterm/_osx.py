@@ -27,7 +27,7 @@ def launch_terminal_app(cwd, env=None, use_tabs=False):
     """
 
     verify_unicode(cwd, 'cwd')
-    verify_unicode_dict(env, 'env', allow_none=True)
+    verify_unicode_dict(env, 'env')
 
     # If no tab is required, the fastest tab to get to a dir is to use "open"
     if not use_tabs:
@@ -100,7 +100,7 @@ def launch_iterm_app(cwd, env=None, use_tabs=False):
     """
 
     verify_unicode(cwd, 'cwd')
-    verify_unicode_dict(env, 'env', allow_none=True)
+    verify_unicode_dict(env, 'env')
 
     if env:
         lines = []
@@ -202,9 +202,19 @@ def _build_set_commands(env):
     else:
         set_command = "export %s=%s"
 
+    if shell_name == 'fish':
+        unset_command = "set -e %s"
+    elif shell_name in set(['tcsh', 'csh']):
+        unset_command = "unset %s"
+    else:
+        unset_command = "unset -v %s"
+
     output = []
     for key, value in env.items():
-        output.append(set_command % (key, _shell_quote(value)))
+        if value is None:
+            output.append(unset_command % key)
+        else:
+            output.append(set_command % (key, _shell_quote(value)))
     return output
 
 

@@ -57,7 +57,7 @@ def launch_terminal(cwd, env=None, terminal=None, args=None, width=1024, use_tab
     """
 
     verify_unicode(cwd, 'cwd')
-    verify_unicode_dict(env, 'env', allow_none=True)
+    verify_unicode_dict(env, 'env')
     verify_unicode(terminal, 'terminal', allow_none=True)
     verify_unicode_list(args, 'args', allow_none=True)
 

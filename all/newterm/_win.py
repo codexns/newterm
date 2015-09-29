@@ -34,7 +34,7 @@ def launch_powershell(cwd, env=None, width=1024):
     """
 
     verify_unicode(cwd, 'cwd')
-    verify_unicode_dict(env, 'env', allow_none=True)
+    verify_unicode_dict(env, 'env')
 
     # Make sure the registry settings are set so that PowerShell looks correct
     key_string = 'Console\\%SystemRoot%_system32_WindowsPowerShell_v1.0_powershell.exe'
@@ -111,7 +111,7 @@ def launch_cmd(cwd, env=None, width=1024):
     """
 
     verify_unicode(cwd, 'cwd')
-    verify_unicode_dict(env, 'env', allow_none=True)
+    verify_unicode_dict(env, 'env')
 
     env_bytes, existing_env = _build_env(env)
 
@@ -161,7 +161,7 @@ def launch_executable(executable, args, cwd, env=None):
     verify_unicode(executable, 'executable')
     verify_unicode_list(args, 'args', allow_none=True)
     verify_unicode(cwd, 'cwd')
-    verify_unicode_dict(env, 'env', allow_none=True)
+    verify_unicode_dict(env, 'env')
 
     env_bytes, existing_env = _build_env(env)
     startupinfo = _build_startupinfo(0, 0, 0)
@@ -237,7 +237,11 @@ def _build_env(env):
 
     if env:
         for key, value in env.items():
-            existing_env[key.upper()] = value
+            if value is None:
+                if key.upper() in existing_env:
+                    del existing_env[key.upper()]
+            else:
+                existing_env[key.upper()] = value
 
         env_string = '%s\x00' % system_drive_string
         for name in sorted(existing_env.keys(), key=lambda s: s.lower()):
