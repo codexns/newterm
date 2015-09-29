@@ -14,6 +14,8 @@ else:
     from ._linux import get_default_terminal
     from ._posix import launch_executable
 
+from ._types import verify_unicode, verify_unicode_list, verify_unicode_dict
+
 
 __version__ = '0.9.2'
 __version_info__ = (0, 9, 2)
@@ -53,6 +55,11 @@ def launch_terminal(cwd, env=None, terminal=None, args=None, width=1024, use_tab
         OS X only: a boolean if tabs should be used instead of new windows when
         terminal is None, "Terminal.app" or "iTerm.app"
     """
+
+    verify_unicode(cwd, 'cwd')
+    verify_unicode_dict(env, 'env', allow_none=True)
+    verify_unicode(terminal, 'terminal', allow_none=True)
+    verify_unicode_list(args, 'args', allow_none=True)
 
     if sys.platform == 'darwin':
         if terminal is None or terminal == 'Terminal.app':

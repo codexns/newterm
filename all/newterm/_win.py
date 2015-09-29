@@ -14,6 +14,8 @@ if sys.version_info < (3,):
 else:
     import winreg
 
+from ._types import verify_unicode, verify_unicode_list, verify_unicode_dict
+
 
 def launch_powershell(cwd, env=None, width=1024):
     """
@@ -30,6 +32,9 @@ def launch_powershell(cwd, env=None, width=1024):
         An integer of the width of the window in pixels - this it not easy to
         change once the program is opened
     """
+
+    verify_unicode(cwd, 'cwd')
+    verify_unicode_dict(env, 'env', allow_none=True)
 
     # Make sure the registry settings are set so that PowerShell looks correct
     key_string = 'Console\\%SystemRoot%_system32_WindowsPowerShell_v1.0_powershell.exe'
@@ -105,6 +110,9 @@ def launch_cmd(cwd, env=None, width=1024):
         change once the program is opened
     """
 
+    verify_unicode(cwd, 'cwd')
+    verify_unicode_dict(env, 'env', allow_none=True)
+
     env_bytes, existing_env = _build_env(env)
 
     startupinfo = _build_startupinfo(width, 768, 0)
@@ -149,6 +157,11 @@ def launch_executable(executable, args, cwd, env=None):
     :param env:
         A dict of unicode strings for a custom environmental variables to set
     """
+
+    verify_unicode(executable, 'executable')
+    verify_unicode_list(args, 'args', allow_none=True)
+    verify_unicode(cwd, 'cwd')
+    verify_unicode_dict(env, 'env', allow_none=True)
 
     env_bytes, existing_env = _build_env(env)
     startupinfo = _build_startupinfo(0, 0, 0)

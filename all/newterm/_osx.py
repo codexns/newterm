@@ -9,7 +9,7 @@ from ctypes.util import find_library
 
 import shellenv
 
-from ._types import str_cls
+from ._types import str_cls, verify_unicode, verify_unicode_dict
 
 
 def launch_terminal_app(cwd, env=None, use_tabs=False):
@@ -25,6 +25,9 @@ def launch_terminal_app(cwd, env=None, use_tabs=False):
     :param use_tabs:
         If Terminal is already open, create a new tab instead of a new window
     """
+
+    verify_unicode(cwd, 'cwd')
+    verify_unicode_dict(env, 'env', allow_none=True)
 
     # If no tab is required, the fastest tab to get to a dir is to use "open"
     if not use_tabs:
@@ -95,6 +98,9 @@ def launch_iterm_app(cwd, env=None, use_tabs=False):
     :param use_tabs:
         If iTerm is already open, create a new tab instead of a new window
     """
+
+    verify_unicode(cwd, 'cwd')
+    verify_unicode_dict(env, 'env', allow_none=True)
 
     if env:
         lines = []

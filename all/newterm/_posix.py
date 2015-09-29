@@ -5,6 +5,8 @@ import sys
 import os
 import subprocess
 
+from ._types import verify_unicode, verify_unicode_list, verify_unicode_dict
+
 
 def launch_executable(executable, args, cwd, env=None):
     """
@@ -22,6 +24,11 @@ def launch_executable(executable, args, cwd, env=None):
     :param env:
         A dict of unicode strings for a custom environmental variables to set
     """
+
+    verify_unicode(executable, 'executable')
+    verify_unicode_list(args, 'args', allow_none=True)
+    verify_unicode(cwd, 'cwd')
+    verify_unicode_dict(env, 'env', allow_none=True)
 
     subprocess_args = [executable]
     if args is not None:
