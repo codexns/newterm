@@ -17,8 +17,8 @@ else:
 from ._types import verify_unicode, verify_unicode_list, verify_unicode_dict
 
 
-__version__ = '0.9.2'
-__version_info__ = (0, 9, 2)
+__version__ = '1.0.0'
+__version_info__ = (1, 0, 0)
 
 
 def launch_terminal(cwd, env=None, terminal=None, args=None, width=1024, use_tabs=False):

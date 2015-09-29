@@ -6,7 +6,7 @@ variables.
 
 ## Version
 
-0.9.2 - [changelog](changelog.md)
+1.0.0 - [changelog](changelog.md)
 
 ## API
 
